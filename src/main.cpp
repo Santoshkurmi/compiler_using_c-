@@ -7,4 +7,13 @@ int main(int argc, char *argv[])
     grammer.execute("tests/cfg.txt");
     grammer.print();
 
+    // Production production;
+    // production.setLeftSymbol("A"); 
+    // production.addRightSymbol("A a"); 
+    // production.addRightSymbol("B a"); 
+    // production.addRightSymbol("A a"); 
+    // production.addRightSymbol("B a"); 
+    // grammer.solveLeftFactoring(production);
+    // grammer.print();
+
 }

@@ -3,6 +3,7 @@
 
 #include "vector"
 #include "iostream"
+#include <string>
 #include <vector>
 
 using namespace std;
@@ -23,6 +24,7 @@ class Rule{
     public:
         Rule();
         vector<Production> productions;
+        void sort();
         void addProduction(string production);
         void addProduction(Production production);
         void print();
@@ -39,8 +41,14 @@ class Grammer{
         void execute();
         void execute(string fileName);
         void solveImmediate(Production &production);
-        void solveNonImmediate();
-        void solveLeftFactoring();
+        void solveNonImmediate(Production &productionCurrent,Production &previous);
+        void solveLeftFactoring(Production production,int index);
+        void addProductionAfterLeft(int originalLenght,int numberToAppend,string matched,int min,int max,int index);
+        void test(string &str);
+        void test2(string &str2);
+    private:
+        vector<string> splitSpacesToVector(string alternate);
+        string convertToString(vector<string> alternate,int length);
 
 
 };

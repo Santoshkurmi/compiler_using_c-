@@ -1,1 +1,1 @@
-A -> A a | A b | c | d | + | e'
+A -> A  | A b | B c | d | e| B d | C c | C d
