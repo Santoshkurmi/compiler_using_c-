@@ -161,7 +161,7 @@ void Grammer::execute(string fileName) {
   for (int i = 0; i < size; i++) {
     solveLeftFactoring(rule.productions[i],i);
     for (int j = 0; j < i; j++) {
-      solveNonImmediate(rule.productions[i], rule.productions[j]);
+      // solveNonImmediate(rule.productions[i], rule.productions[j]);
     }
     solveImmediate(rule.productions.at(i));
   } //
@@ -171,14 +171,24 @@ void Grammer::solveImmediate(Production &production) {
   string leftSymbol = production.leftSymbol;
   vector<string> alphas, betas, newRules, oldRules;
   string newName = leftSymbol + "'";
+  vector<string> tempAltSplit;
 
   for (string alternative : production.rightSymbols) {
-    if (alternative.substr(0, leftSymbol.length()) == leftSymbol) {
-      alphas.push_back(alternative.substr(leftSymbol.length()));
-    } // if name is matched
-    else {
-      betas.push_back(alternative);
-    } //
+    tempAltSplit = splitSpacesToVector(alternative);
+    if(tempAltSplit[0] == leftSymbol ) {
+      for(string alt: tempAltSplit)
+        alphas.push_back(alt);
+    }
+    else{
+      betas.push_back(tempAltSplit[0]);
+    }
+
+    // if (alternative.substr(0, leftSymbol.length()) == leftSymbol) {
+    //   alphas.push_back(alternative.substr(leftSymbol.length()));
+    // } // if name is matched
+    // else {
+    //   betas.push_back(alternative);
+    // } //
   }   // each alternatives
 
   if (alphas.size() == 0)
@@ -254,7 +264,7 @@ void Grammer::addProductionAfterLeft(int originalLenght,int numberToAppend,strin
       string name2 = name + to_string(numberToAppend);
       vector<string> rightSymbols = productionNow.rightSymbols;
       vector<string> newRuleA;
-      cout<<"** "<<matched+" "+name2<<endl;
+      // cout<<"** "<<matched+" "+name2<<endl;
   //
       int min1 =min -  originalLenght + productionNow.rightSymbols.size();
       int max1 = min1 + max-min;
@@ -323,7 +333,7 @@ void Grammer::solveLeftFactoring(Production production,int index) {
           // if(k==compareSize-1) matchPrev = matchCurrent;
           if(  k==compareSize-1 && (currentEach.size()==1 ||  j==sizeOfEach-1 )  ){
             string matched = convertToString(currentEach, j+1);
-            cout<<"1Found prefix at "<<i<<" to "<<i+matchCurrent<<" with '"<<matched<<"'"<<endl;
+            // cout<<"1Found prefix at "<<i<<" to "<<i+matchCurrent<<" with '"<<matched<<"'"<<endl;
             addProductionAfterLeft(originalLength,numberToAppend++,matched, i , i+matchCurrent,index);
             i =i+ matchPrev;//it auto increment by 1 as loop
             break;
@@ -333,7 +343,7 @@ void Grammer::solveLeftFactoring(Production production,int index) {
         else{
           if( matchCurrent!=0  && currentEach.size()==1){
             string matched = convertToString(currentEach, j+1);
-            cout<<"2Found prefix at "<<i<<" to "<<i+matchCurrent<<" with '"<<matched<<"'"<<endl;
+            // cout<<"2Found prefix at "<<i<<" to "<<i+matchCurrent<<" with '"<<matched<<"'"<<endl;
             addProductionAfterLeft(originalLength,numberToAppend++,matched, i , i+matchCurrent,index);
             i =i+ matchPrev;//it auto increment by 1 as loop
             break;
@@ -341,7 +351,7 @@ void Grammer::solveLeftFactoring(Production production,int index) {
           if( matchCurrent < matchPrev){
             string matched = convertToString(currentEach, j);
             // cout<<i<<", "<<i+matchPrev<<endl;
-            cout<<"3Found prefix at "<<i<<" to "<<i+matchPrev<<" with '"<<matched<<"'"<<endl;
+            // cout<<"3Found prefix at "<<i<<" to "<<i+matchPrev<<" with '"<<matched<<"'"<<endl;
             addProductionAfterLeft(originalLength,numberToAppend++,matched, i , i+matchPrev,index);
             i =i+ matchPrev;//it auto increment by 1 as loop
             break;
